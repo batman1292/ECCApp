@@ -3,23 +3,24 @@ extends layout
 block content
   .container
     .row
-      .col-xs-12
+      .col-sm-12
         .page-header
           h1= title
     .row
-      .col-xs-12
+      .col-sm-12
         fieldset
-          legend Example
+          legend กรุณาวางบัตรนศ. และ Scan Barcode หลังบัตรนศ.
           .form-group
             .row
-              .col-xs-4.col-xs-offset-0
-                input(type='text', id='rfid', placeholder='Data form RFID Tags', class="form-control", onkeypress="handelInput(event, 'rfid')")
-              .col-xs-4
-                input(type='text', id='barcode', placeholder='Data form Barcode Reader', class="form-control" onkeypress="handelInput(event, 'barcode')")
-              .col-xs-2
-                a(href="#", class="btn btn-success") Submit
-              .col-xs-2
-                a(href="#", class="btn btn-danger" onclick="resetInput();") Reset
+              .col-sm-4.col-sm-offset-1
+                input(type='password', id='rfid', placeholder='Data form RFID Tags', class="form-control", onkeypress="handelInput(event, 'rfid')")
+              .col-sm-4
+                input(type='text', id='barcode', placeholder='Data form Barcode Reader', class="form-control", onkeypress="handelInput(event, 'barcode')")
+              //- .col-xs-2
+              //-  a(href="", class="btn btn-success") Submit
+              .col-sm-2
+                a(href="", class="btn btn-danger" onclick="resetInput();") Reset
+      .row#studentInfo
   script( type="text/javascript").
     function set(){
       document.getElementById('rfid').focus();
