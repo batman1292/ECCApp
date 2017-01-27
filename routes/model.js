@@ -50,8 +50,7 @@ router.post('/findStudentByID', function(req, res, next){
 router.post('/checkHash', function(req, res, next){
   var indexFind = findStudent(req.body.salt, 5);
   if(indexFind != 0){
-    var hash = md5(req.body.studentID+req.body.salt);
-    if(hash === dataArray[indexFind].split(',')[6]){
+    if(hash = req.body.hash === dataArray[indexFind].split(',')[6]){
       res.status(200).json({titleName: dataArray[indexFind].split(',')[1],
                             Name: dataArray[indexFind].split(',')[2],
                             Surname: dataArray[indexFind].split(',')[3]

@@ -1,5 +1,8 @@
 var english = /^[A-Za-z0-9]*$/;
 var number = /^[0-9]*$/;
+// var url = "localhost";
+var url = "192.168.1.181";
+var salt = "";
 
 function handelInput(e, type){
   if(e.keyCode === 13){
@@ -7,9 +10,6 @@ function handelInput(e, type){
       if(document.getElementById('rfid').value.length === 8){
         if(document.getElementById('barcode').value === ""){
           document.getElementById('barcode').focus();
-          // disable rfid tag
-          // var disable = document.createAttribute("disabled");
-          // disable.value = '';
           document.getElementById('rfid').setAttributeNode(document.createAttribute("disabled"));
         } else if(document.getElementById('barcode').value.length != 13 || !number.test(document.getElementById(type).value)){
           swal({
@@ -21,10 +21,10 @@ function handelInput(e, type){
             document.getElementById('barcode').value = "";
           });
         } else {
-          // success to get input
-          checkData(document.getElementById('barcode').value);
+          getData(document.getElementById('barcode').value);
         }
-      } else {
+      }else{
+        // scan barcode before
         swal({
           title: "เกิดข้อผิดพลาด!",
           text: "กรุณาแตะบัตรก่อน scan barcode",
@@ -32,9 +32,11 @@ function handelInput(e, type){
           confirmButtonText: "ตกลง"
         },function(){
           document.getElementById('rfid').value = "";
+          document.getElementById('barcode').value = "";
         });
       }
     }else{
+      // input error
       swal({
         title: "เกิดข้อผิดพลาด!",
         text: "กรุณาเปลี่ยนแป้นพิมพ์เป็นภาษาอังกฤษ",
@@ -47,51 +49,42 @@ function handelInput(e, type){
   }
 }
 
+function submitData(){
+  var rfidID = document.getElementById('rfid').value;
+  var studentID = document.getElementById('barcode').value;
+  var citizenID = document.getElementById('citizen').value;
+  var hash = CryptoJS.HmacMD5(citizenID, salt);
+  console.log(hash.toString(CryptoJS.enc.Base64));
+  $.post("//"+url+":3000/model/checkHash", {hash : hash.toString(CryptoJS.enc.Base64), salt : salt}, function(){})
+    .done(function (data){
+      swal("สำเร็จ!", "", "success");
+    })
+    .error(function (data){
+      swal({
+        title: "เกิดข้อผิดพลาด!",
+        text: "ข้อมูลรหัสประจำตัวประชาชนผิดพลาด กรุณากรอกใหม่",
+        type: "error",
+        confirmButtonText: "ตกลง"
+      },function(){
+        document.getElementById('citizen').value = "";
+      });
+    });
+}
+
 function resetInput(){
   document.getElementById('rfid').value = "";
   document.getElementById('rfid').removeAttribute("disabled");
   document.getElementById('barcode').value = "";
+  document.getElementById('citizen').value = "";
   document.getElementById('rfid').focus();
 }
 
-function checkData(studentID){
+function getData(studentID){
   console.log(studentID);
-  $.post("//localhost:3000/model/findStudentByID", {studentID : studentID}, function(){})
+  $.post("//"+url+":3000/model/findStudentByID", {studentID : studentID}, function(){})
     .done(function (data){
-      swal({
-        title: "<h2 style='color:#c9dae1'>Info</h2>",
-        text: "กรุณากรอกรหัสประจำตัวประชาชนเพื่อยืนยันตัวตนเข้าใช้งาน",
-        type: "input",
-        html: true,
-        showCancelButton: true,
-        closeOnConfirm: false,
-        showLoaderOnConfirm: true,
-        animation: "slide-from-top",
-        inputPlaceholder: "กรอกรหัสประจำตัวประชาชน"
-      },
-        function(inputValue){
-          if (inputValue === false) return false;
-
-          if (inputValue === "") {
-            swal.showInputError("กรุณากรอกข้อมูล");
-            return false;
-          }
-          if (!number.test(inputValue) || inputValue.length != 13){
-            swal.showInputError("ข้อมูลไม่ถูกต้อง<br>กรุณากรอกข้อมูลใหม่");
-            return false;
-          }
-
-          $.post("//localhost:3000/model/checkHash", {studentID : studentID, salt : data.salt}, function(){})
-          .done(function (data){
-            swal("สำเร็จ!", "", "success");
-          })
-          .error(function (data){
-            console.log(data);
-            swal.showInputError("ข้อมูลไม่ถูกต้อง<br>กรุณากรอกข้อมูลใหม่");
-            return false;
-          });
-        }
-      );
+      salt = data.salt;
+      document.getElementById('citizen').focus();
     })
     .error(function(data){
       swal({
@@ -101,6 +94,24 @@ function checkData(studentID){
         confirmButtonText: "ตกลง"
       },function(){
         document.getElementById('barcode').value = "";
+        document.getElementById('barcode').focus();
       });
     });
+}
+
+function validateInput(type){
+  // console.log(document.getElementById(type).length);
+  if(!number.test(document.getElementById(type).value) || document.getElementById(type).value.length != 13){
+    swal({
+      title: "เกิดข้อผิดพลาด!",
+      text: "ข้อมูลไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง",
+      type: "error",
+      confirmButtonText: "ตกลง"
+    },function(){
+      document.getElementById(type).value = "";
+      document.getElementById(type).focus();
+    });
+  }else if(type === 'barcode'){
+    getData(document.getElementById(type).value);
+  }
 }

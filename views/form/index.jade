@@ -5,23 +5,33 @@ block content
     .row
       .col-sm-12
         .page-header
-          h1= title
+          h1 ระบบลงทะเบียนบัตรนักศึกษา
     .row
       .col-sm-12
         fieldset
-          legend กรุณาวางบัตรนศ. และ Scan Barcode หลังบัตรนศ.
+          legend instruction...
           .form-group
             .row
-              .col-sm-4.col-sm-offset-1
-                input(type='password', id='rfid', placeholder='Data form RFID Tags', class="form-control", onkeypress="handelInput(event, 'rfid')")
               .col-sm-4
-                input(type='text', id='barcode', placeholder='Data form Barcode Reader', class="form-control", onkeypress="handelInput(event, 'barcode')")
-              //- .col-xs-2
-              //-  a(href="", class="btn btn-success") Submit
+                input(type='password', id='rfid', placeholder='แตะบัตรนักศึกษา', class="form-control", onkeypress="handelInput(event, 'rfid')")
+              .col-sm-4
+                .input-group
+                  input#barcode.form-control(type='text', placeholder='scan barcode หรือกรอกรหัสนักศึกษา', aria-describedby='barcode-btn', onkeypress="handelInput(event, 'barcode')")
+                  span.input-group-btn
+                    button#barcode-btn.btn.btn-default(type='button')
+                      i.fa.fa-calculator
+              .col-sm-4
+                .input-group
+                  input#citizen.form-control(type='text', placeholder='กรอกรหัสประจำตัวประชาชน', aria-describedby='citizenID-btn', onkeypress="handelInput(event, 'barcode')")
+                  span.input-group-btn
+                    button#citizen-btn.btn.btn-default(type='button')
+                      i.fa.fa-calculator
+            .row(style="margin-top:5%")
+              .col-sm-2.col-sm-offset-4
+                a(class="btn btn-success", onclick="submitData()") Submit
               .col-sm-2
-                a(href="", class="btn btn-danger" onclick="resetInput();") Reset
+                a(class="btn btn-danger", onclick="resetInput();") Reset
+
       .row#studentInfo
-  script( type="text/javascript").
-    function set(){
-      document.getElementById('rfid').focus();
-    }
+
+//- alignRight ui-keyboard-input ui-widget-content ui-corner-all ui-keyboard-autoaccepted
