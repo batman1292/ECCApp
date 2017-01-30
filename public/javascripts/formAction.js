@@ -1,8 +1,9 @@
 var english = /^[A-Za-z0-9]*$/;
 var number = /^[0-9]*$/;
-// var url = "localhost";
-var url = "192.168.1.181";
+var url = "localhost";
+// var url = "192.168.1.181";
 var salt = "";
+// var crypto = require('/javascripts/crypto/md5.js');
 
 function handelInput(e, type){
   if(e.keyCode === 13){
@@ -53,9 +54,14 @@ function submitData(){
   var rfidID = document.getElementById('rfid').value;
   var studentID = document.getElementById('barcode').value;
   var citizenID = document.getElementById('citizen').value;
-  var hash = CryptoJS.HmacMD5(citizenID, salt);
-  console.log(hash.toString(CryptoJS.enc.Base64));
-  $.post("//"+url+":3000/model/checkHash", {hash : hash.toString(CryptoJS.enc.Base64), salt : salt}, function(){})
+  var msg = studentID+salt+citizenID;
+  // var hash = crypto.createHash('md5').update( msg ).digest("base64");
+  // var hash = CryptoJS.HmacMD5(studentID+salt+citizenID, "");
+  // console.log(hash.toString(CryptoJS.enc.Base64));
+  var hash = CryptoJS.MD5(studentID+salt+citizenID);
+  // console.log(hash.finalize);
+  // console.log(CryptoJS.enc.Base64.stringify(hash));
+  $.post("//"+url+":3000/model/checkHashMD5", {hash : hash.toString(CryptoJS.enc.Base64), salt : salt}, function(){})
     .done(function (data){
       swal("สำเร็จ!", "", "success");
     })
