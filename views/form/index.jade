@@ -8,29 +8,34 @@ block content
           h1 ระบบลงทะเบียนบัตรนักศึกษา
     .row
       .col-sm-12
-        fieldset
-          legend instruction...
-          .form-group
-            .row
-              .col-sm-4
-                input(type='password', id='rfid', placeholder='แตะบัตรนักศึกษา', class="form-control", onkeypress="handelInput(event, 'rfid')")
-              .col-sm-4
-                .input-group
-                  input#barcode.form-control(type='text', placeholder='scan barcode หรือกรอกรหัสนักศึกษา', aria-describedby='barcode-btn', onkeypress="handelInput(event, 'barcode')")
-                  span.input-group-btn
-                    button#barcode-btn.btn.btn-default(type='button')
-                      i.fa.fa-calculator
-              .col-sm-4
-                .input-group
-                  input#citizen.form-control(type='text', placeholder='กรอกรหัสประจำตัวประชาชน', aria-describedby='citizenID-btn', onkeypress="handelInput(event, 'barcode')")
-                  span.input-group-btn
-                    button#citizen-btn.btn.btn-default(type='button')
-                      i.fa.fa-calculator
-            .row(style="margin-top:5%")
-              .col-sm-2.col-sm-offset-4
-                a(class="btn btn-success", onclick="submitData()") Submit
-              .col-sm-2
-                a(class="btn btn-danger", onclick="resetInput();") Reset
+        .form-group
+          .row
+            .col-sm-4
+              p แตะบัตรนักศึกษา
+            .col-sm-4
+              p scan หรือ กรอกรหัสนักศึกษา
+            .col-sm-4
+              p กรอกรหัสประจำตัวประชาชน
+          .row
+            .col-sm-4
+              input(type='password', id='rfid', placeholder='บัตรนักศึกษา', class="form-control", onkeypress="handelInput(event, 'rfid')")
+            .col-sm-4
+              .input-group
+                input#barcode.form-control(type='text', placeholder='รหัสนักศึกษา', aria-describedby='barcode-btn', onkeypress="handelInput(event, 'barcode')")
+                span.input-group-btn
+                  button#barcode-btn.btn.btn-default(type='button')
+                    i.fa.fa-calculator
+            .col-sm-4
+              .input-group
+                input#citizen.form-control(type='text', placeholder='รหัสประชาชน', aria-describedby='citizenID-btn', onkeypress="handelInput(event, 'barcode')")
+                span.input-group-btn
+                  button#citizen-btn.btn.btn-default(type='button')
+                    i.fa.fa-calculator
+          .row(style="margin-top:5%")
+            .col-sm-2.col-sm-offset-4
+              a(class="btn btn-success", onclick="submitData()") Submit
+            .col-sm-2
+              a(class="btn btn-danger", onclick="resetInput();") Reset
 
       .row#studentInfo
 
