@@ -1,7 +1,7 @@
 var english = /^[A-Za-z0-9]*$/;
 var number = /^[0-9]*$/;
-var url = "localhost";
-// var url = "192.168.1.183";
+// var url = "localhost";
+var url = "192.168.1.183";
 var salt = "";
 // var crypto = require('/javascripts/crypto/md5.js');
 
@@ -63,7 +63,7 @@ function submitData(){
   // console.log(CryptoJS.enc.Base64.stringify(hash));
   $.post("//"+url+":3000/model/checkHashMD5", {hash : hash.toString(CryptoJS.enc.Base64)}, function(){})
     .done(function (data){
-      // console.log(data.rfid_code);
+      console.log(data.rfid_code);
       if(data.rfid_code === null){
         swal({
           title: "บัตรนักศึกษาคุณยังไม่ลงทะเบียน",
@@ -82,7 +82,6 @@ function submitData(){
             type: 'PUT',
             success: function(result) {
                 // Do something with the result
-              // console.log(result);
               swal("ลงทะเบียนสำเร็จ!", "", "success");
             }
           });

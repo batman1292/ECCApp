@@ -65,7 +65,7 @@ router.post('/checkHashMD5', function(req, res, next){
 
 router.put('/updateRFIDCode',function(req, res, next){
   console.log(req.body);
-  var query = "UPDATE STU_CARD SET RFID_CODE == '"+req.body.rfid_code+"' WHERE STU_CODE == '?'";
+  var query = "UPDATE STU_CARD SET RFID_CODE == '"+req.body.rfid_code+"' WHERE STU_CODE == '"+req.body.studentID+"'";
   db.run(query, [], function(err) {
     if (err) {
       console.log('Error executing statement:', err, err.stack);
