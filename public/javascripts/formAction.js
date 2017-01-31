@@ -82,6 +82,7 @@ function submitData(){
             type: 'PUT',
             success: function(result) {
                 // Do something with the result
+                resetInput();
               swal("ลงทะเบียนสำเร็จ!", "", "success");
             }
           });
@@ -104,12 +105,13 @@ function submitData(){
             data: {rfid_code: rfidID, studentID: studentID},
             type: 'PUT',
             success: function(result) {
-                // Do something with the result
+              resetInput();
               swal("ลงทะเบียนสำเร็จ!", "", "success");
             }
           });
         });
       }else{
+        resetInput();
         swal("สำเร็จ!", "", "success");
       }
     })
