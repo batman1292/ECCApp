@@ -65,9 +65,51 @@ function submitData(){
     .done(function (data){
       // console.log(data.rfid_code);
       if(data.rfid_code === null){
-
+        swal({
+          title: "บัตรนักศึกษาคุณยังไม่ลงทะเบียน",
+          text: "กรุณากด submit เพื่อทำการลงทะเบียน",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#f8c486",
+          confirmButtonText: "submit",
+          closeOnConfirm: false
+        },
+        function(){
+          console.log("confirmButtonText");
+          $.ajax({
+            url: "//"+url+':3000/model/updateRFIDCode',
+            data: {rfid_code: rfidID, studentID: studentID},
+            type: 'PUT',
+            success: function(result) {
+                // Do something with the result
+              // console.log(result);
+              swal("ลงทะเบียนสำเร็จ!", "", "success");
+            }
+          });
+          // swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        });
       }else if(data.rfid_code != rfidID){
-
+        swal({
+          title: "บัตรนักศึกษาคุณไม่ตรงกับฐานข้อมูล",
+          text: "กรุณากด submit เพื่อทำการลงทะเบียนใหม่",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#f8c486",
+          confirmButtonText: "submit",
+          closeOnConfirm: false
+        },
+        function(){
+          // swal("Deleted!", "Your imaginary file has been deleted.", "success");
+          $.ajax({
+            url: "//"+url+':3000/model/updateRFIDCode',
+            data: {rfid_code: rfidID, studentID: studentID},
+            type: 'PUT',
+            success: function(result) {
+                // Do something with the result
+              swal("ลงทะเบียนสำเร็จ!", "", "success");
+            }
+          });
+        });
       }else{
         swal("สำเร็จ!", "", "success");
       }

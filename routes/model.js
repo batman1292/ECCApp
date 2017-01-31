@@ -61,21 +61,32 @@ router.post('/checkHashMD5', function(req, res, next){
       res.status(404).json({error: "Not Found"});
     }
   });
-  // var indexFind = findStudent(req.body.salt, 1);
-  // if(indexFind != 0){
-  //   if(hash = req.body.hash === dataArray[indexFind].split(',')[2]){
-  //     res.status(200).json({
-  //                             msg: "success"
-  //                           // titleName: dataArray[indexFind].split(',')[1],
-  //                           // Name: dataArray[indexFind].split(',')[2],
-  //                           // Surname: dataArray[indexFind].split(',')[3]
-  //                           // isActive: dataArray[indexFind].split(',')[4],
-  //                           // salt: dataArray[indexFind].split(',')[5]
-  //                         });
-  //   }
-  //   // console.log(hash);
-  // }
-  // res.status(404).json({error: "invalid value"});
+});
+
+router.put('/updateRFIDCode',function(req, res, next){
+  console.log(req.body);
+  var query = "UPDATE STU_CARD SET RFID_CODE == '"+req.body.rfid_code+"' WHERE STU_CODE == '?'";
+  db.run(query, [], function(err) {
+    if (err) {
+      console.log('Error executing statement:', err, err.stack);
+      res.status(404).json({error: "Not Found"});
+    }else{
+      res.status(200).json({msg: "success"});
+    }
+  });
+  // console.log(db.run(query));
+  // db.run(query, [req.body.studentID], function(err) {
+  //     if(err)
+  //         throw err;
+  //
+  //     console.log("VALUE CHANGES: " + this.changes + " - " + util.inspect(this, { showHidden: false, depth: null }));
+  //
+  //     if(this.changes == 1)
+  //         console.log("WORK DONE");
+  //     else
+  //         console.log("NOTHING DONE");
+  //
+  // });
 });
 
 module.exports = router;
