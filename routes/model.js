@@ -38,55 +38,44 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/findStudentByID', function(req, res, next){
-  db.get("SELECT SALT FROM STU_CARD WHERE STU_CODE == "+req.body.studentID,function(err, row){
-        // res.json({ "count" : row.value });
-    // console.log(row);
-    if ( row != null ) {
-      res.status(200).json({salt: row.SALT});
-    }else{
-      res.status(404).json({error: "Not Found"});
+  db.get("SELECT SALT FROM STU_HASH WHERE STU_CODE == "+req.body.studentID,
+    function(err, row){
+      if ( row != null ) {
+        res.status(200).json({salt: row.SALT});
+      }else{
+        res.status(404).json({error: "Not Found"});
+      }
     }
-  });
+  );
 });
 
 router.post('/checkHashMD5', function(req, res, next){
-  var query = "SELECT * FROM STU_CARD WHERE ID_MD5 == '"+req.body.hash+"'";
-  // console.log(query);
-  db.get(query, function(err, row){
-        // res.json({ "count" : row.value });
-    // console.log(row);
-    if ( row != null ) {
-      res.status(200).json({rfid_code: row.RFID_CODE});
-    }else{
-      res.status(404).json({error: "Not Found"});
+  db.get("SELECT * FROM STU_CARD as card LEFT JOIN STU_HASH as hash ON card.STU_CODE = hash.STU_CODE WHERE hash.ID_MD5 == '"+req.body.hash+"'",
+    function(err, row){
+      console.log(row);
+      if ( row != null ) {
+        res.status(200).json({rfid_code: row.RFID_CODE});
+      }else{
+        res.status(404).json({error: "Not Found"});
+      }
     }
-  });
+  );
 });
 
 router.put('/updateRFIDCode',function(req, res, next){
-  console.log(req.body);
-  var query = "UPDATE STU_CARD SET RFID_CODE == '"+req.body.rfid_code+"' WHERE STU_CODE == '"+req.body.studentID+"'";
-  db.run(query, [], function(err) {
-    if (err) {
-      console.log('Error executing statement:', err, err.stack);
-      res.status(404).json({error: "Not Found"});
-    }else{
-      res.status(200).json({msg: "success"});
+  var   query = "UPDATE STU_CARD SET RFID_CODE == '"+req.body.rfid_code+"' WHERE STU_CODE == '"+req.body.studentID+"'";
+  console.log(query);
+  db.run(query, [],
+    function(err) {
+      if (err) {
+        res.status(404).json({error: "Not Found"});
+      }else{
+        res.status(200).json({msg: "success"});
+      }
     }
-  });
-  // console.log(db.run(query));
-  // db.run(query, [req.body.studentID], function(err) {
-  //     if(err)
-  //         throw err;
-  //
-  //     console.log("VALUE CHANGES: " + this.changes + " - " + util.inspect(this, { showHidden: false, depth: null }));
-  //
-  //     if(this.changes == 1)
-  //         console.log("WORK DONE");
-  //     else
-  //         console.log("NOTHING DONE");
-  //
-  // });
+  );
 });
+
+// router.get('/')
 
 module.exports = router;
