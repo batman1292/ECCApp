@@ -137,9 +137,16 @@ function resetInput(){
 }
 
 function getData(studentID){
-  console.log(studentID);
+  // console.log(studentID);
+  swal({
+    title: '<div class="loader"></div>',
+    text: "กำลังตรวจสอบข้อมูล กรุณารอสักครู่",
+     html: true,
+    showConfirmButton: false
+  });
   $.post("//"+url+":3000/model/findStudentByID", {studentID : studentID}, function(){})
     .done(function (data){
+      swal.close();
       salt = data.salt;
       document.getElementById('citizen').focus();
     })
