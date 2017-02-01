@@ -210,7 +210,7 @@ router.delete('/studentCard', function(req, res, next){
 
 // CRUD for STU_HASH table
 router.post('/studentHash', function(req, res, next){
-  var query = "INSERT INTO STU_HASH (STU_CODE, SALT, ID_MD5, ID_SHA256) VALUES ('"+req.body.studentID+"', '"+req.body.salt+"', '"+req.body.md5+"', '"+req.body.sha256+"')";
+  var query = "INSERT INTO STU_HASH (STU_CODE, SALT, ID_MD5, ID_SHA256) VALUES ('"+req.body.studentID+"', '"+req.body.salt+"', '"+req.body.md5+"', '"+req.body.sha+"')";
   db.run(query, [],
     function(err) {
       if (err) {

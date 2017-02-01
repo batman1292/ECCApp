@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .container
+    .form-group
+      .row
+        .col-md-10
+          h1 REST API testing tools
+          br
+      .row
+        .col-md-2.col-md-offset-1
+          select#method.form-control
+            option(value='get') GET
+            option(value='post') POST
+            option(value='put') PUT
+            option(value='delete') DELETE
+        .col-md-5
+          .input-group
+            input#url.form-control(type='text', placeholder="type url here")
+            span.input-group-btn
+              button.btn.btn-defalut(type='button') Params
+        .col-md-1
+          a.btn.btn-primary(onclick="") SEND
+        .col-md-1
+          a.btn.btn-danger(onclick="") RESET
+      .row
+        .col-md-
