@@ -1,7 +1,7 @@
 var english = /^[A-Za-z0-9]*$/;
 var number = /^[0-9]*$/;
-// var url = "localhost";
-var url = "192.168.1.183";
+var url = "localhost";
+// var url = "192.168.10.164";
 var salt = "";
 // var crypto = require('/javascripts/crypto/md5.js');
 
@@ -171,4 +171,16 @@ function validateInput(type){
   }else if(type === 'barcode'){
     getData(document.getElementById(type).value);
   }
+}
+
+function showNumpad(){
+  // $('#citizen').numpad({
+  //   target: $('#citizen'),
+  //   hidePlusMinusButton: true,
+  //   hideDecimalButton: true,
+  //   // appendKeypadTo: true,
+  //   onKeypadClose: function(){
+  //     validateInput('citizen');
+  //   }
+  // });
 }
