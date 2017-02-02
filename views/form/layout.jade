@@ -2,6 +2,7 @@ doctype html
 html
   head
     title= title
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0', name='viewport')
     //- Bootswatch Theme
     link(href="/stylesheets/flatly-bootstrap.min.css", rel="stylesheet")
     //- fontawsome
@@ -111,7 +112,6 @@ script( type="text/javascript").
       target: $('#citizen'),
       hidePlusMinusButton: true,
       hideDecimalButton: true,
-      appendKeypadTo: true,
       onKeypadClose: function(){
         validateInput('citizen');
       },
