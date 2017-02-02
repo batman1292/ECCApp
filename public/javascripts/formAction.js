@@ -1,7 +1,7 @@
 var english = /^[A-Za-z0-9]*$/;
 var number = /^[0-9]*$/;
-// var url = "localhost";
-var url = "192.168.10.164";
+var url = "localhost";
+// var url = "192.168.10.164";
 var salt = "";
 // var crypto = require('/javascripts/crypto/md5.js');
 
